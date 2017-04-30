@@ -8,12 +8,21 @@ var clear = require('clear');
 var figlet = require('figlet');
 var CLI = require('clui');
 var inquirer = require('inquirer');
+var util = require('util');
 var Spinner = CLI.Spinner;
+var https = require('https');
+var GitHubApi = require('github');
+
+var URL_GIT_REPOS =  'https://api.github.com/users/%s/repos';
 
 clear();
 console.log(chalk.yellow(figlet.textSync('Git Lang', {horizontalLayout: 'full'})));
 
-getInput(validateInput);
+var github = new GitHubApi({
+  version: '3.0.0'
+});
+
+getInput(getRepos);
 
 function getInput(callback) {
   var questions = [
@@ -34,11 +43,20 @@ function getInput(callback) {
   inquirer.prompt(questions).then(callback);
 }
 
-function validateInput(input) {
-  console.log(input)
+// make a GET request to Github API and get all user's repos
+function getRepos(input) {
+  var urlToFetch = util.format(URL_GIT_REPOS, input.username);
+  console.log('>>> url: ', urlToFetch);
+
+  https.get(urlToFetch, function (res) {
+    console.log('>>> statusCode: ', res.statusCode);
+
+    res.on('data', function (d) {
+      process.stdout.write(d);
+    })
+  })
 }
 
-// make a GET request to Github API and get all user's repos
 
 // Iterate thgrough the repos and get the language property
 
