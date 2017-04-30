@@ -13,7 +13,6 @@ var Spinner = CLI.Spinner;
 clear();
 console.log(chalk.yellow(figlet.textSync('Git Lang', {horizontalLayout: 'full'})));
 
-// prompt the user input
 getInput(validateInput);
 
 function getInput(callback) {
@@ -21,7 +20,14 @@ function getInput(callback) {
     {
       name: 'username',
       type: 'input',
-      message: 'Enter a valid account name of a Github user:'
+      message: 'Enter a valid account name of a Github user:',
+      validate: function (value) {
+        if (typeof value === 'string' && value.length > 2 && value.match(/[^a-zA-Z0-9]/g) === null) {
+          return true;
+        } else {
+          return 'Please enter a valid account name of a Github user.';
+        }
+      }
     }
   ];
 
@@ -29,14 +35,8 @@ function getInput(callback) {
 }
 
 function validateInput(input) {
-  var name = input.username;
-  if (typeof name === 'string' && name.length > 2 && name.match(/[^a-zA-Z0-9]/g) === null) {
-    console.log('success!');
-  } else {
-    console.log('Failed!');
-  }
+  console.log(input)
 }
-// validate the user input - should be a valid user name
 
 // make a GET request to Github API and get all user's repos
 
