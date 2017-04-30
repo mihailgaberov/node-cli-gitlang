@@ -1,0 +1,9 @@
+{
+  "name": "node-cli-gitlang",
+  "version": "1.0.0",
+  "description": "NodeJS CLI app for getting the preferred language by a given Github user.",
+  "main": "index.js",
+  "repository": "https://github.com/mihailgaberov/node-cli-gitlang.git",
+  "author": "Mihail Gaberov <mihail.gaberov@gmail.com>",
+  "license": "MIT"
+}
