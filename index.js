@@ -11,16 +11,12 @@ var inquirer = require('inquirer');
 var util = require('util');
 var Spinner = CLI.Spinner;
 var https = require('https');
-var GitHubApi = require('github');
+var request = require('request');
 
-var URL_GIT_REPOS =  'https://api.github.com/users/%s/repos';
+var URL_GIT_REPOS = 'https://api.github.com/users/%s/repos';
 
 clear();
 console.log(chalk.yellow(figlet.textSync('Git Lang', {horizontalLayout: 'full'})));
-
-var github = new GitHubApi({
-  version: '3.0.0'
-});
 
 getInput(getRepos);
 
@@ -43,21 +39,29 @@ function getInput(callback) {
   inquirer.prompt(questions).then(callback);
 }
 
-// make a GET request to Github API and get all user's repos
+// Make a GET request to Github API and get all user's repos
 function getRepos(input) {
   var urlToFetch = util.format(URL_GIT_REPOS, input.username);
   console.log('>>> url: ', urlToFetch);
 
-  https.get(urlToFetch, function (res) {
-    console.log('>>> statusCode: ', res.statusCode);
 
-    res.on('data', function (d) {
-      process.stdout.write(d);
-    })
-  })
+  var options = {
+    url: urlToFetch,
+    headers: {
+      'User-Agent': 'Gitlang-App'
+    }
+  };
+
+  request(options, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      var arrRepos = JSON.parse(body);
+      console.log(arrRepos);
+    }
+  });
 }
 
 
 // Iterate thgrough the repos and get the language property
+
 
 // Implement some logic to verify which is the most used language and return it as output to the user's console
