@@ -16,6 +16,7 @@ var request = require('request')
 var URL_GIT_REPOS = 'https://api.github.com/users/%s/repos'
 
 var arrLangs = []
+var user =''
 
 clear()
 console.log(chalk.yellow(figlet.textSync('Git Lang', {horizontalLayout: 'full'})))
@@ -42,7 +43,8 @@ function getInput(callback) {
 }
 
 function getRepos(input) {
-  var urlToFetch = util.format(URL_GIT_REPOS, input.username)
+  user = input.username
+  var urlToFetch = util.format(URL_GIT_REPOS, user)
   var options = {
     url: urlToFetch,
     headers: {
@@ -101,5 +103,5 @@ function outputPreferredLang(lang) {
     console.log(chalk.red('No such user. Please enter another username.'))
     return null
   }
-  console.log(chalk.blue(lang))
+  console.log(chalk.blue('The preferred language of ') + chalk.cyan(user) + chalk.blue(' is ') + chalk.cyan(lang))
 }
