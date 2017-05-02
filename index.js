@@ -77,25 +77,25 @@ function getMostFrequentElement(arrLangs) {
     return null
   }
 
-  var modeMap = {}
-  var maxEl = arrLangs[0]
+  var frequency = {}
+  var result = arrLangs[0]
   var maxCount = 1
 
   for (var i = 0; i < arrLangs.length; i++) {
     var el = arrLangs[i]
 
-    if (modeMap[el] === null) {
-      modeMap[el] = 1
+    if (frequency[el] === null) {
+      frequency[el] = 1
     } else {
-      modeMap[el]++
+      frequency[el]++
     }
 
-    if (modeMap[el] > maxCount) {
-      maxEl = el
-      maxCount = modeMap[el]
+    if (frequency[el] > maxCount) {
+      result = el
+      maxCount = frequency[el]
     }
   }
-  return maxEl;
+  return result;
 }
 
 function outputPreferredLang(lang) {
