@@ -1,5 +1,7 @@
 # Node CLI Gitlang
 NodeJS CLI app for getting the preferred language by a given Github user.
+![Image of the app](https://github.com/mihailgaberov/node-cli-gitlang/blob/master/1493799335.png)
+
 
 ## Running The App
 
